@@ -34,7 +34,7 @@ class Server:
     def __start_communicate_with_client(self, connection):
         connection.send(str.encode(self.WELCOME_MESSAGE))
         username = connection.recv(self.DATA_CLUSTER).decode()
-        
+
         select_chat_mes = self.SELECT_CHAT_MESSAGE + "\n".join(self.all_chats)
         connection.send(str.encode(select_chat_mes))
         chat_id = int(connection.recv(self.DATA_CLUSTER).decode())
@@ -54,7 +54,7 @@ class Server:
         current_user = self.__start_communicate_with_client(connection)
         while True:
             data = connection.recv(self.DATA_CLUSTER).decode()
-            print(data)
+            print(f"[{current_user.username}]:", data)
             if not data:
                 continue
 

@@ -12,26 +12,26 @@ class Client:
         self.__start_chat()
 
     def __start_chat(self):
-        server_message = self.client_socket.recv(self.DATA_CLUSTER).decode()
-        print(server_message)
+        self.__get_server_answer()
         username = input()
         self.client_socket.send(str.encode(username))
 
-        server_message = self.client_socket.recv(self.DATA_CLUSTER).decode()
-        print(server_message)
+        self.__get_server_answer()
         chat_id = input()
         self.client_socket.send(str.encode(chat_id))
 
         if chat_id == "-1":
-            server_message = self.client_socket.recv(self.DATA_CLUSTER).decode()
-            print(server_message)
+            self.__get_server_answer()
             chat_name = input()
             self.client_socket.send(str.encode(chat_name))
 
-        server_message = self.client_socket.recv(self.DATA_CLUSTER).decode()
-        print(server_message)
+        self.__get_server_answer()
 
         self.__start()
+
+    def __get_server_answer(self):
+        server_message = self.client_socket.recv(self.DATA_CLUSTER).decode()
+        print(server_message)
 
     def __start(self):
         thread1 = Thread(target=self.__receive_messages)
@@ -55,8 +55,7 @@ class Client:
 
     def __receive_messages(self):
         while True:
-            response = self.client_socket.recv(self.DATA_CLUSTER)
-            print(response.decode())
+            self.__get_server_answer()
 
 
 client = Client("localhost", 5555)
