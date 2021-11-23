@@ -20,7 +20,7 @@ class Server:
                           "Список доступных чатов(для выбора отправьте его номер):\n"
     ENTER_CHAT_NAME = "Введи название нового чата: "
     YOU_CONNECTED_MESSAGE = "Вы успешно подключились к чату"
-    NO_CHATS_MESSAGE = "Пока что нет ни одного чата"
+    NO_CHATS_MESSAGE = "Пока что нет ни одного чата. Введите -1, чтобы создать новый"
 
     def __init__(self, host, port):
         self.host = host
@@ -35,7 +35,11 @@ class Server:
         connection.send(str.encode(self.WELCOME_MESSAGE))
         username = connection.recv(self.DATA_CLUSTER).decode()
 
-        select_chat_mes = self.SELECT_CHAT_MESSAGE + "\n".join(self.all_chats)
+        if not self.all_chats:
+            select_chat_mes = self.NO_CHATS_MESSAGE
+        else:
+            select_chat_mes = self.SELECT_CHAT_MESSAGE + "\n".join(self.all_chats)
+
         connection.send(str.encode(select_chat_mes))
         chat_id = int(connection.recv(self.DATA_CLUSTER).decode())
         if chat_id == -1:
