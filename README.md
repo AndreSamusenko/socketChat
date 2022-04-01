@@ -1,4 +1,4 @@
-**Simple console-based socket-chat with rooms**
+# **Simple console-based socket-chat with rooms**
 
 Very simple realization of console-based char with rooms.
 
